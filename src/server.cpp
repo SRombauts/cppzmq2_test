@@ -2,7 +2,8 @@
 
 #include "server.h"
 
-server_t::server_t (void)
+server_t::server_t (void) :
+   context(1)
 {
 }
 
@@ -20,13 +21,44 @@ int server_t::loop (void)
 
    if ((dir = opendir ("src")) != NULL)
    {
+      // socket to reply to client requests
+      std::cout << "binding...\n";
+      zmq::socket_t receiver(context, ZMQ_REP);
+      receiver.bind ("tcp://*:5555");
+
+      {
+         // wait for the hello request message
+         std::cout << "waiting for the hello message...\n";
+         zmq::message_t request;
+         receiver.recv (request);
+         std::cout << "request(" << request.size () << ")=" << (const char*)request.data () << std::endl;
+
+         // reply with the welcome message
+         zmq::message_t reply(strlen("welcome")+1);
+         memcpy (reply.data(), "welcome", reply.size ());
+         std::cout << "reply(" << reply.size () << ")=" << (const char*)reply.data() << std::endl;
+         receiver.send (reply);
+      }
+
       // print all the files and directories within directory
       while ((ent = readdir (dir)) != NULL)
       {
          // filter les répertoires "." et ".."
          if ('.' != ent->d_name[0])
          {
-            printf ("%s\n", ent->d_name);
+            // wait for a request message
+            std::cout << "waiting for a get message...\n";
+            zmq::message_t request;
+            receiver.recv (request);
+            std::cout << "request(" << request.size () << ")=" << (const char*)request.data () << std::endl;
+
+            std::cout << "filename=" << ent->d_name << std::endl;
+
+            // reply with the name of the file found
+            zmq::message_t reply(strlen(ent->d_name)+1);
+            memcpy (reply.data(), ent->d_name, reply.size ());
+            std::cout << "reply(" << reply.size () << ")=" << (const char*)reply.data() << std::endl;
+            receiver.send (reply);
          }
       }
       closedir (dir);
