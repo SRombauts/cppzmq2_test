@@ -78,12 +78,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\client.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\dirent.h" />
     <ClInclude Include="include\zmq.h" />
     <ClInclude Include="include\zmq.hpp" />
     <ClInclude Include="include\zmq_utils.h" />
+    <ClInclude Include="src\client.h" />
+    <ClInclude Include="src\server.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,9 @@
 #include <iostream>
-#include <zmq.hpp>
+#include "../include/zmq.hpp"
+#include "client.h"
+#include "server.h"
+#include "stdlib.h"
+
 
 void usage (void)
 {
@@ -8,22 +12,13 @@ void usage (void)
    std::cout << " cppzmq_test s\n";
 }
 
-void client (void)
-{
-   std::cout << "client\n";
-}
-
-void server (void)
-{
-   std::cout << "server\n";
-}
-
 
 /**
  * @brief Poin d'entrée de l'application
 */
 int main (int argc,char* argv[])
 {
+   int ret = EXIT_SUCCESS;
    int major;
    int minor;
    int patch;
@@ -36,10 +31,16 @@ int main (int argc,char* argv[])
       switch (argv[1][0])
       {
       case 'c':
-         client ();
+         {
+            client_t client;
+            ret = client.loop ();
+         }
          break;
       case 's':
-         server ();
+         {
+            server_t server;
+            ret = server.loop ();
+         }
          break;
       default:
          usage ();
