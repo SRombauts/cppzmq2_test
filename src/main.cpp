@@ -14,7 +14,7 @@ void usage (void)
 
 
 /**
- * @brief Poin d'entrée de l'application
+ * @brief Point d'entrée de l'application
 */
 int main (int argc,char* argv[])
 {
@@ -22,10 +22,10 @@ int main (int argc,char* argv[])
    int major;
    int minor;
    int patch;
-   zmq::version (&major, &minor, &patch);   
-   
+   zmq::version (&major, &minor, &patch);
+
    std::cout << "libzmq version " << major << "." << minor << "." << patch << std::endl;
-   
+
    if (2 <= argc)
    {
       switch (argv[1][0])
@@ -52,5 +52,5 @@ int main (int argc,char* argv[])
       usage ();
    }
 
-   return 0;
+   return ret;
 }

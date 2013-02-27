@@ -1,4 +1,8 @@
-#include "dirent.h"
+#ifdef _WIN32
+#include "../include/win32/dirent.h"
+#else
+#include <dirent.h>
+#endif
 
 #include "server.h"
 

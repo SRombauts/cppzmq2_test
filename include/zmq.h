@@ -203,7 +203,7 @@ ZMQ_EXPORT int zmq_msg_set (zmq_msg_t *msg, int option, int optval);
 /*  0MQ socket definition.                                                    */
 /******************************************************************************/
 
-/*  Socket types.                                                             */ 
+/*  Socket types.                                                             */
 #define ZMQ_PAIR 0
 #define ZMQ_PUB 1
 #define ZMQ_SUB 2
@@ -344,7 +344,7 @@ typedef struct {
 ZMQ_EXPORT void *zmq_socket (void *, int type);
 ZMQ_EXPORT int zmq_close (void *s);
 ZMQ_EXPORT int zmq_setsockopt (void *s, int option, const void *optval,
-    size_t optvallen); 
+    size_t optvallen);
 ZMQ_EXPORT int zmq_getsockopt (void *s, int option, void *optval,
     size_t *optvallen);
 ZMQ_EXPORT int zmq_bind (void *s, const char *addr);
