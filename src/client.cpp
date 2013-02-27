@@ -19,7 +19,7 @@ int client_t::loop (void)
    {
       // socket to request files to the server
       std::cout << "binding...\n";
-      zmq::socket_t requester(context, ZMQ_REQ);
+      zmq::socket_t requester(context, zmq::REQ);
       requester.connect ("tcp://localhost:5555");
 
       {

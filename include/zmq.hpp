@@ -65,6 +65,25 @@
 
 namespace zmq
 {
+    /******************************************************************************/
+    /*  0MQ socket definition.                                                    */
+    /******************************************************************************/
+
+    /*  Socket types.                                                             */
+    enum socket_types
+    {
+        PAIR    = ZMQ_PAIR, // 0 
+        PUB     = ZMQ_PUB,  // 1
+        SUB     = ZMQ_SUB,  // 2
+        REQ     = ZMQ_REQ,  // 3
+        REP     = ZMQ_REP,  // 4
+        DEALER  = ZMQ_DEALER, // 5
+        ROUTER  = ZMQ_ROUTER, // 6
+        PULL    = ZMQ_PULL, // 7
+        PUSH    = ZMQ_PUSH, // 8
+        XPUB    = ZMQ_XPUB, // 9
+        XSUB    = ZMQ_XSUB  // 10
+    };
 
     typedef zmq_free_fn free_fn;
     typedef zmq_pollitem_t pollitem_t;

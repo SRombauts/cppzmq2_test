@@ -27,7 +27,7 @@ int server_t::loop (void)
    {
       // socket to reply to client requests
       std::cout << "binding...\n";
-      zmq::socket_t receiver(context, ZMQ_REP);
+      zmq::socket_t receiver(context, zmq::REP);
       receiver.bind ("tcp://*:5555");
 
       {
