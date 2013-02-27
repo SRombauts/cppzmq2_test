@@ -3,8 +3,13 @@
 #else
 #include <dirent.h>
 #endif
+#include <sys/stat.h>
 
 #include "server.h"
+
+
+static const char* _dir_name = "src/";
+
 
 server_t::server_t (void) :
    context(1)
@@ -23,7 +28,7 @@ int server_t::loop (void)
 
    std::cout << "server_t::loop\n";
 
-   if ((dir = opendir ("src")) != NULL)
+   if ((dir = opendir (_dir_name)) != NULL)
    {
       // socket to reply to client requests
       std::cout << "binding...\n";
@@ -63,6 +68,18 @@ int server_t::loop (void)
             memcpy (reply.data(), ent->d_name, reply.size ());
             std::cout << "reply(" << reply.size () << ")=" << (const char*)reply.data() << std::endl;
             receiver.send (reply);
+
+            // TODO add the size of the file found
+            std::string filename = _dir_name;
+            filename += ent->d_name;
+            struct stat st;
+            int ok = stat(filename.c_str (), &st);
+            if (0 == ok)
+            {
+                std::cout << "filesize=" << st.st_size << std::endl;
+            }
+
+            // TODO add the content of the file found
          }
       }
       closedir (dir);
