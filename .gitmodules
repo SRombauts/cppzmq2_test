@@ -1,0 +1,3 @@
+[submodule "cppzmq2"]
+	path = cppzmq2
+	url = https://SRombauts@github.com/SRombauts/cppzmq2

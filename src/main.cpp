@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../include/zmq.hpp"
+#include "../cppzmq2/zmq.hpp"
 #include "client.h"
 #include "server.h"
 #include "stdlib.h"
@@ -14,7 +14,7 @@ void usage (void)
 
 
 /**
- * @brief Point d'entrée de l'application
+ * @brief Point d'entrï¿½e de l'application
 */
 int main (int argc,char* argv[])
 {

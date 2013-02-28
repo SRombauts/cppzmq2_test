@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../include/zmq.hpp"
+#include "../cppzmq2/zmq.hpp"
 
 class client_t
 {
