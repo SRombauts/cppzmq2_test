@@ -37,7 +37,7 @@ CPPZMQ_TEST_OBJECTS =  \
 	
 ### Targets: ###
 
-all: $(BUILD) $(BUILD)/example1
+all: $(BUILD) $(BUILD)/cppzmq_test
 
 clean: 
 	rm -f $(BUILD)/*.o
@@ -48,7 +48,7 @@ $(BUILD): $(BUILD)/
 	mkdir -p $(BUILD)
 
 
-$(BUILD)/example1: $(CPPZMQ_TEST_OBJECTS)
+$(BUILD)/cppzmq_test: $(CPPZMQ_TEST_OBJECTS)
 	$(CXX) -o $@ $(CPPZMQ_TEST_OBJECTS) $(LINK_FLAGS) -Llib/linux/ -lzmq -lrt -pthread
 
 
