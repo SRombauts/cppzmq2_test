@@ -47,9 +47,15 @@ int client_t::loop (void)
          zmq::message_t reply;
          requester.recv (reply);
          std::cout << "reply(" << reply.size () << ")=" << reply.string ().c_str () << std::endl;
+         // then, its size,
          zmq::message_t reply_part2;
          requester.recv (reply_part2);
-         std::cout << "reply(" << reply_part2.size () << ")=" << ntohl(*(u_long*)reply_part2.data ()) << std::endl;
+         std::cout << "reply_part2(" << reply_part2.size () << ")=" << ntohl(*(u_long*)reply_part2.data ()) << std::endl;
+         // and finaly ist content
+         zmq::message_t reply_part3;
+         requester.recv (reply_part3);
+         std::cout << "reply_part3(" << reply_part3.size () << ")=" << reply_part3.string ().c_str () << std::endl;
+         // TODO fopen and fwrite
       } while (true);
    }
    catch (std::exception& e)

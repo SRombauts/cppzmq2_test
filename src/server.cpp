@@ -76,14 +76,33 @@ int server_t::loop (void)
             int ok = stat(filename.c_str (), &st);
             if (0 == ok)
             {
-                std::cout << "filesize=" << st.st_size << std::endl;
+                u_long val = htonl(st.st_size);
+                zmq::message_t reply_part2((void*)&val, sizeof(st.st_size));
+                std::cout << "reply_part2(" << reply_part2.size () << ")=" << st.st_size << std::endl;
+                receiver.send (reply_part2, zmq::SNDMORE);
             }
-            u_long val = htonl(st.st_size);
-            zmq::message_t reply_part2((void*)&val, sizeof(st.st_size));
-            std::cout << "reply_part2(" << reply_part2.size () << ")=" << reply_part2.string ().c_str () << std::endl;
-            receiver.send (reply_part2);
+            else
+            {
+                abort();
+            }
 
             // TODO add the content of the file found
+            FILE* fp = fopen(filename.c_str (), "rb");
+            if (NULL != fp)
+            {
+                void* buffer = (void*) new char[st.st_size];
+                fread(buffer, 1, st.st_size, fp);
+                // TODO use zerocopy message with free_fn
+                zmq::message_t reply_part3(buffer, st.st_size);
+                std::cout << "reply_part3(" << reply_part3.size () << ")" << std::endl;
+                receiver.send (reply_part3);
+                delete [] buffer;
+                fclose (fp);
+            }
+            else
+            {
+                abort();
+            }
          }
       }
       closedir (dir);
