@@ -9,6 +9,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="cppzmq2">
+      <UniqueIdentifier>{4dbe1252-6298-4323-9985-49e5199588fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -25,9 +28,6 @@
     <ClInclude Include="include\zmq.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\zmq.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\zmq_utils.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -39,6 +39,9 @@
     </ClInclude>
     <ClInclude Include="src\server.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="cppzmq2\zmq.hpp">
+      <Filter>cppzmq2</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

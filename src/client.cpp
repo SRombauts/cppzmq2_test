@@ -24,8 +24,7 @@ int client_t::loop (void)
 
       {
          // begin with a "hello" request
-         zmq::message_t request(strlen("hello")+1);
-         memcpy (request.data(), "hello", request.size ());
+         zmq::message_t request("hello", strlen("hello")+1);
          std::cout << "request(" << request.size () << ")=" << (const char*)request.data() << std::endl;
          requester.send (request);
       
@@ -39,8 +38,7 @@ int client_t::loop (void)
       do
       {
          // send "get" request
-         zmq::message_t request(strlen("get")+1);
-         memcpy (request.data(), "get", request.size ());
+         zmq::message_t request("get", strlen("get")+1);
          std::cout << "request(" << request.size () << ")=" << (const char*)request.data() << std::endl;
          requester.send (request);
       

@@ -83,9 +83,9 @@
     <ClCompile Include="src\server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cppzmq2\zmq.hpp" />
     <ClInclude Include="include\dirent.h" />
     <ClInclude Include="include\zmq.h" />
-    <ClInclude Include="include\zmq.hpp" />
     <ClInclude Include="include\zmq_utils.h" />
     <ClInclude Include="src\client.h" />
     <ClInclude Include="src\server.h" />

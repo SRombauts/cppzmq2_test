@@ -43,8 +43,7 @@ int server_t::loop (void)
          std::cout << "request(" << request.size () << ")=" << (const char*)request.data () << std::endl;
 
          // reply with the welcome message
-         zmq::message_t reply(strlen("welcome")+1);
-         memcpy (reply.data(), "welcome", reply.size ());
+         zmq::message_t reply("welcome", strlen("welcome")+1);
          std::cout << "reply(" << reply.size () << ")=" << (const char*)reply.data() << std::endl;
          receiver.send (reply);
       }
@@ -64,8 +63,7 @@ int server_t::loop (void)
             std::cout << "filename=" << ent->d_name << std::endl;
 
             // reply with the name of the file found
-            zmq::message_t reply(strlen(ent->d_name)+1);
-            memcpy (reply.data(), ent->d_name, reply.size ());
+            zmq::message_t reply(ent->d_name, strlen(ent->d_name)+1);
             std::cout << "reply(" << reply.size () << ")=" << (const char*)reply.data() << std::endl;
             receiver.send (reply);
 
