@@ -24,29 +24,29 @@ int client_t::loop (void)
 
       {
          // begin with a "hello" request
-         zmq::message_t request("hello", strlen("hello")+1);
-         std::cout << "request(" << request.size () << ")=" << (const char*)request.data() << std::endl;
+         zmq::message_t request("hello", strlen("hello"));
+         std::cout << "request(" << request.size () << ")=" << request.string ().c_str () << std::endl;
          requester.send (request);
       
          // wait for the welcome reply message
          std::cout << "waiting for a welcome reply\n";
          zmq::message_t reply;
          requester.recv (reply);
-         std::cout << "reply(" << reply.size () << ")=" << (const char*)reply.data () << std::endl;
+         std::cout << "reply(" << reply.size () << ")=" << reply.string ().c_str () << std::endl;
       }
 
       do
       {
          // send "get" request
-         zmq::message_t request("get", strlen("get")+1);
-         std::cout << "request(" << request.size () << ")=" << (const char*)request.data() << std::endl;
+         zmq::message_t request("get", strlen("get"));
+         std::cout << "request(" << request.size () << ")=" << request.string ().c_str () << std::endl;
          requester.send (request);
       
          // wait for the filename reply message
          std::cout << "waiting for a filename reply\n";
          zmq::message_t reply;
          requester.recv (reply);
-         std::cout << "reply(" << reply.size () << ")=" << (const char*)reply.data () << std::endl;
+         std::cout << "reply(" << reply.size () << ")=" <<  reply.string ().c_str () << std::endl;
       } while (true);
    }
    catch (std::exception& e)

@@ -40,11 +40,11 @@ int server_t::loop (void)
          std::cout << "waiting for the hello message...\n";
          zmq::message_t request;
          receiver.recv (request);
-         std::cout << "request(" << request.size () << ")=" << (const char*)request.data () << std::endl;
+         std::cout << "request(" << request.size () << ")=" << request.string ().c_str () << std::endl;
 
          // reply with the welcome message
-         zmq::message_t reply("welcome", strlen("welcome")+1);
-         std::cout << "reply(" << reply.size () << ")=" << (const char*)reply.data() << std::endl;
+         zmq::message_t reply("welcome", strlen("welcome"));
+         std::cout << "reply(" << reply.size () << ")=" << reply.string ().c_str () << std::endl;
          receiver.send (reply);
       }
 
@@ -58,13 +58,13 @@ int server_t::loop (void)
             std::cout << "waiting for a get message...\n";
             zmq::message_t request;
             receiver.recv (request);
-            std::cout << "request(" << request.size () << ")=" << (const char*)request.data () << std::endl;
+            std::cout << "request(" << request.size () << ")=" << request.string ().c_str () << std::endl;
 
             std::cout << "filename=" << ent->d_name << std::endl;
 
             // reply with the name of the file found
-            zmq::message_t reply(ent->d_name, strlen(ent->d_name)+1);
-            std::cout << "reply(" << reply.size () << ")=" << (const char*)reply.data() << std::endl;
+            zmq::message_t reply(ent->d_name, strlen(ent->d_name));
+            std::cout << "reply(" << reply.size () << ")=" << reply.string ().c_str () << std::endl;
             receiver.send (reply);
 
             // TODO add the size of the file found
