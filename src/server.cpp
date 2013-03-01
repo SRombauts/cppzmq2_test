@@ -1,7 +1,9 @@
 #ifdef _WIN32
 #include "../include/win32/dirent.h"
+#include "winsock2.h"
 #else
 #include <dirent.h>
+#include <net/hton.h>
 #endif
 #include <sys/stat.h>
 
@@ -65,9 +67,9 @@ int server_t::loop (void)
             // reply with the name of the file found
             zmq::message_t reply(ent->d_name, strlen(ent->d_name));
             std::cout << "reply(" << reply.size () << ")=" << reply.string ().c_str () << std::endl;
-            receiver.send (reply);
+            receiver.send (reply, zmq::SNDMORE);
 
-            // TODO add the size of the file found
+            // add the size of the file found
             std::string filename = _dir_name;
             filename += ent->d_name;
             struct stat st;
@@ -76,6 +78,10 @@ int server_t::loop (void)
             {
                 std::cout << "filesize=" << st.st_size << std::endl;
             }
+            u_long val = htonl(st.st_size);
+            zmq::message_t reply_part2((void*)&val, sizeof(st.st_size));
+            std::cout << "reply_part2(" << reply_part2.size () << ")=" << reply_part2.string ().c_str () << std::endl;
+            receiver.send (reply_part2);
 
             // TODO add the content of the file found
          }

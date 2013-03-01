@@ -46,7 +46,10 @@ int client_t::loop (void)
          std::cout << "waiting for a filename reply\n";
          zmq::message_t reply;
          requester.recv (reply);
-         std::cout << "reply(" << reply.size () << ")=" <<  reply.string ().c_str () << std::endl;
+         std::cout << "reply(" << reply.size () << ")=" << reply.string ().c_str () << std::endl;
+         zmq::message_t reply_part2;
+         requester.recv (reply_part2);
+         std::cout << "reply(" << reply_part2.size () << ")=" << ntohl(*(u_long*)reply_part2.data ()) << std::endl;
       } while (true);
    }
    catch (std::exception& e)
