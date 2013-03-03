@@ -22,19 +22,6 @@ int client_t::loop (void)
       zmq::socket_t requester(context, zmq::REQ);
       requester.connect ("tcp://localhost:5555");
 
-      {
-         // begin with a "hello" request
-         zmq::message_t request("hello", strlen("hello"));
-         std::cout << "request(" << request.size () << ")=" << request.string ().c_str () << std::endl;
-         requester.send (request);
-      
-         // wait for the welcome reply message
-         std::cout << "waiting for a welcome reply\n";
-         zmq::message_t reply;
-         requester.recv (reply);
-         std::cout << "reply(" << reply.size () << ")=" << reply.string ().c_str () << std::endl;
-      }
-
       do
       {
          // send "get" request
@@ -51,11 +38,12 @@ int client_t::loop (void)
          zmq::message_t reply_part2;
          requester.recv (reply_part2);
          std::cout << "reply_part2(" << reply_part2.size () << ")=" << ntohl(*(u_long*)reply_part2.data ()) << std::endl;
-         // and finaly ist content
+         // and finaly its content
          zmq::message_t reply_part3;
          requester.recv (reply_part3);
          std::cout << "reply_part3(" << reply_part3.size () << ")=" << reply_part3.string ().c_str () << std::endl;
          // TODO fopen and fwrite
+         // TODO quit the loop
       } while (true);
    }
    catch (std::exception& e)

@@ -37,19 +37,6 @@ int server_t::loop (void)
       zmq::socket_t receiver(context, zmq::REP);
       receiver.bind ("tcp://*:5555");
 
-      {
-         // wait for the hello request message
-         std::cout << "waiting for the hello message...\n";
-         zmq::message_t request;
-         receiver.recv (request);
-         std::cout << "request(" << request.size () << ")=" << request.string ().c_str () << std::endl;
-
-         // reply with the welcome message
-         zmq::message_t reply("welcome", strlen("welcome"));
-         std::cout << "reply(" << reply.size () << ")=" << reply.string ().c_str () << std::endl;
-         receiver.send (reply);
-      }
-
       // print all the files and directories within directory
       while ((ent = readdir (dir)) != NULL)
       {
@@ -86,18 +73,15 @@ int server_t::loop (void)
                 abort();
             }
 
-            // TODO add the content of the file found
+            // add the content of the file found
             FILE* fp = fopen(filename.c_str (), "rb");
             if (NULL != fp)
             {
-                void* buffer = (void*) new char[st.st_size];
-                fread(buffer, 1, st.st_size, fp);
-                // TODO use zerocopy message with free_fn
-                zmq::message_t reply_part3(buffer, st.st_size);
+                zmq::message_t reply_part3(st.st_size);
+                fread(reply_part3.data (), 1, st.st_size, fp);
+                fclose (fp);
                 std::cout << "reply_part3(" << reply_part3.size () << ")" << std::endl;
                 receiver.send (reply_part3);
-                delete [] buffer;
-                fclose (fp);
             }
             else
             {
