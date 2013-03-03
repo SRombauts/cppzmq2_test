@@ -1,5 +1,7 @@
 #include "client.h"
 
+static const char* _dir_name = "out/";
+
 client_t::client_t (void) :
    context(1)
 {
@@ -37,6 +39,8 @@ int client_t::loop (void)
             std::cout << "reply(" << reply.size() << ")=" << reply.string ().c_str () << std::endl;
             if (0 < reply.size())
             {
+                std::string filename = _dir_name;
+                filename += reply.string ().c_str ();
                 // then, its size,
                 zmq::message_t reply_part2;
                 requester.recv (reply_part2);
@@ -44,8 +48,18 @@ int client_t::loop (void)
                 // and finaly its content
                 zmq::message_t reply_part3;
                 requester.recv (reply_part3);
-                std::cout << "reply_part3(" << reply_part3.size () << ")=" << reply_part3.string ().c_str () << std::endl;
-                // TODO fopen and fwrite
+                std::cout << "reply_part3(" << reply_part3.size () << ")" << std::endl;
+                // then fwrite the file to the out directory
+                FILE* fp = fopen(filename.c_str (), "wb");
+                if (NULL != fp)
+                {
+                    fwrite(reply_part3.data (), 1, reply_part3.size (), fp);
+                    fclose (fp);
+                }
+                else
+                {
+                    abort();
+                }
             }
             else
             {
